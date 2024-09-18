@@ -21,4 +21,4 @@ test:
 	@echo "Testing package: $(PKG_NAME)"
 	@cd $(PKG_DIR) && cargo test
 
-.PHONY: create remove run
+.PHONY: create remove run clean test
