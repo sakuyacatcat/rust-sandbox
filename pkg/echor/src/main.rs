@@ -23,6 +23,10 @@ fn main() {
     let text: Vec<String> = matches.get_many::<String>("text").unwrap().map(|v| v.to_owned()).collect();
     let omit_newline = matches.get_flag("omit_newline");
 
-    let ending = if omit_newline { "" } else { "\n" };
+    let mut ending = "";
+    if omit_newline {
+        ending = "";
+    }
+
     println!("{}{}", text.join(" "), ending);
 }
