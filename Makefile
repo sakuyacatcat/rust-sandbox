@@ -29,6 +29,14 @@ rrun:
 	@echo "Running release package: $(PKG_NAME)"
 	@cd $(PKG_DIR) && cargo run --release --quiet $(if $(ARGS), -- $(ARGS))
 
+add:
+	@echo "Adding package: $(LIB)"
+	@cd $(PKG_DIR) && cargo add $(LIB)
+
+update:
+	@echo "Updating package: $(PKG_NAME)"
+	@cd $(PKG_DIR) && cargo update
+
 clean:
 	@echo "Cleaning package: $(PKG_NAME)"
 	@cd $(PKG_DIR) && cargo clean
