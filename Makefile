@@ -13,6 +13,10 @@ check:
 	@echo "Checking package: $(PKG_NAME)"
 	@cd $(PKG_DIR) && cargo check
 
+fmt:
+	@echo "Formatting package: $(PKG_NAME)"
+	@cd $(PKG_DIR) && cargo fmt
+
 build:
 	@echo "Building package: $(PKG_NAME)"
 	@cd $(PKG_DIR) && cargo build
