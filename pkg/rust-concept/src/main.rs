@@ -14,4 +14,11 @@ fn main() {
     let (x, y, z) = tup;
     println!("The value of y is: {}", y);
     println!("The value of y is: {}", tup.1);
+
+    // list type
+    let a: [i32; 5] = [1,2,3,4,5];
+    let first = a[0];
+    let last = a[a.len() - 1];
+    let b = [3; 5];
+    let months = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
 }
