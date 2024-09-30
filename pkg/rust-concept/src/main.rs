@@ -21,4 +21,11 @@ fn main() {
     let _last = a[a.len() - 1];
     let _b = [3; 5];
     let _months = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
+
+    // function
+    print_labeled_measurement(10, "minutes");
+}
+
+fn print_labeled_measurement(value: i32, unit_label: &str) {
+    println!("The value is: {}{}", value, unit_label);
 }
