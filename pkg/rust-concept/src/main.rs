@@ -16,14 +16,34 @@ fn main() {
     println!("The value of y is: {}", tup.1);
 
     // list type
-    let a: [i32; 5] = [1,2,3,4,5];
+    let a: [i32; 5] = [1, 2, 3, 4, 5];
     let _first = a[0];
     let _last = a[a.len() - 1];
     let _b = [3; 5];
-    let _months = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
+    let _months = [
+        "january",
+        "february",
+        "march",
+        "april",
+        "may",
+        "june",
+        "july",
+        "august",
+        "september",
+        "october",
+        "november",
+        "december",
+    ];
 
     // function
     print_labeled_measurement(10, "minutes");
+
+    // formula and expression
+    let y = {
+        let x = 5;
+        x + 1
+    };
+    println!("The value of y is: {}", y);
 }
 
 fn print_labeled_measurement(value: i32, unit_label: &str) {
