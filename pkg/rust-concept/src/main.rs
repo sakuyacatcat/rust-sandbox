@@ -44,8 +44,16 @@ fn main() {
         x + 1
     };
     println!("The value of y is: {}", y);
+
+    // function with return value
+    let x = five();
+    println!("The value of x is: {}", x);
 }
 
 fn print_labeled_measurement(value: i32, unit_label: &str) {
     println!("The value is: {}{}", value, unit_label);
+}
+
+fn five() -> i32 {
+    5
 }
