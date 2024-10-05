@@ -103,9 +103,9 @@ fn main() {
     }
 
     // ownership
-    let s = String::from("hello");
-    let (s2, len) = calculate_length(s);
-    println!("strings is {}, length is {}", s2, len);
+    let s1 = String::from("hello");
+    let len = calculate_length(&s1);
+    println!("The length of '{}' is {}", s1, len);
 }
 
 fn type_of<T>(_: &T) -> &str {
@@ -120,7 +120,6 @@ fn five() -> i32 {
     5
 }
 
-fn calculate_length(s: String) -> (String, usize) {
-    let length = s.len();
-    (s, length)
+fn calculate_length(s: &String) -> usize {
+    s.len()
 }
