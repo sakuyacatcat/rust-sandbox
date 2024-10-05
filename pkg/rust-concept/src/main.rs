@@ -101,6 +101,11 @@ fn main() {
     for num in (1..4).rev() {
         println!("{}!", num);
     }
+
+    // ownership
+    let mut s = String::from("hello");
+    s.push_str(", world!");
+    println!("{}", s);
 }
 
 fn type_of<T>(_: &T) -> &str {
