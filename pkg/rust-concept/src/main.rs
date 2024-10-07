@@ -110,6 +110,29 @@ fn main() {
     // reference
     let mut s = String::from("hello");
     change(&mut s);
+
+    // pass reference variables to function up to 1
+    let s = String::from("hello");
+    let r1 = &s;
+    let r2 = &s;
+    println!("{}, {}", r1, r2);
+
+    // avoid dangling reference
+    dangle();
+
+    // slice
+    let s = String::from("hello");
+
+    // let slice = &s[0..2];
+    // let slice = &s[..2];
+    // let len = s.len();
+    // let slice = &s[3..len];
+    // let slice = &s[3..];
+    // let slice = &s[0..len];
+    // let slice = &s[..];
+
+    let word = first_word(&s);
+    println!("The first word is: {}", word);
 }
 
 fn type_of<T>(_: &T) -> &str {
@@ -130,4 +153,22 @@ fn calculate_length(s: &String) -> usize {
 
 fn change(some_string: &mut String) {
     some_string.push_str(", world");
+}
+
+fn dangle() -> String {
+    let s = String::from("Hello");
+
+    s
+}
+
+fn first_word(s: &String) -> &str {
+    let bytes = s.as_bytes();
+
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return &s[..i];
+        }
+    }
+
+    &s[..]
 }
