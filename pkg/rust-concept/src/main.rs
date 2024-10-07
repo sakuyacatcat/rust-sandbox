@@ -120,7 +120,7 @@ fn main() {
     // avoid dangling reference
     dangle();
 
-    // slice
+    // slice for string
     let s = String::from("hello");
 
     // let slice = &s[0..2];
@@ -131,8 +131,16 @@ fn main() {
     // let slice = &s[0..len];
     // let slice = &s[..];
 
-    let word = first_word(&s);
+    let word = first_word(&s[..]);
+    let next_s = "Hello world";
+    let word = first_word(&next_s[..]);
+    let word = first_word(next_s);
     println!("The first word is: {}", word);
+
+    // slice for integer
+    let a = [1, 2, 3, 4, 5];
+    let slice = &a[1..3];
+    println!("{:?}", slice);
 }
 
 fn type_of<T>(_: &T) -> &str {
@@ -161,7 +169,7 @@ fn dangle() -> String {
     s
 }
 
-fn first_word(s: &String) -> &str {
+fn first_word(s: &str) -> &str {
     let bytes = s.as_bytes();
 
     for (i, &item) in bytes.iter().enumerate() {
