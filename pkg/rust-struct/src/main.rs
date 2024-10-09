@@ -12,6 +12,19 @@ struct Rectangle {
     height: u32,
 }
 
+impl Rectangle {
+    fn area(&self) -> u32 {
+        self.width * self.height
+    }
+
+    fn can_hold(&self, other: &Rectangle) -> bool {
+        self.width > other.width && self.height > other.height
+    }
+
+    fn square(size: u32) -> Rectangle {
+        Rectangle { width: size, height: size }
+    }
+}
 
 fn main() {
     // struct
@@ -51,6 +64,13 @@ fn main() {
         area(&rect),
         rect
     );
+
+    // method
+    let rect = Rectangle { width: 30, height: 50 };
+    println!("The area of the rectangle is {} square pixels.", rect.area());
+
+    let another_rect = Rectangle::square(3);
+    println!("The area of the rectangle is {} square pixels.", another_rect.area());
 }
 
 fn build_user(email: String, username: String) -> User {
