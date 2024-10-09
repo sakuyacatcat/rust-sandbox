@@ -6,6 +6,13 @@ struct User {
     active: bool,
 }
 
+#[derive(Debug)]
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+
 fn main() {
     // struct
     let mut user1 = User {
@@ -33,6 +40,17 @@ fn main() {
     let origin = Point(0, 0, 0);
     println!("{:#?}", black);
     println!("{:#?}", origin);
+
+    let rect = Rectangle {
+        width: 30,
+        height: 50,
+    };
+
+    println!(
+        "The rect of the rectangle is {} square pixels. And rect is {:#?}",
+        area(&rect),
+        rect
+    );
 }
 
 fn build_user(email: String, username: String) -> User {
@@ -42,4 +60,8 @@ fn build_user(email: String, username: String) -> User {
         active: true,
         sign_in_count: 1,
     }
+}
+
+fn area(rectangle: &Rectangle) -> u32 {
+    rectangle.width * rectangle.height
 }
