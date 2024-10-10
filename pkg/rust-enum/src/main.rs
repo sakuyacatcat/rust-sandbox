@@ -12,6 +12,13 @@ enum Message {
     ChangeColor(i32, i32, i32),
 }
 
+enum Coin {
+    Penny,
+    Nickel,
+    Dime,
+    Quarter,
+}
+
 impl Message {
     fn call(&self) {
         println!("{:#?}", self);
@@ -34,8 +41,24 @@ fn main() {
     w.call();
     let c = Message::ChangeColor(1, 2, 3);
     c.call();
+
+    // enum and match
+    let coin = Coin::Penny;
+    println!("{}", value_in_cents(coin));
 }
 
 fn route(ip: IpAddr) {
     println!("{:#?}", ip);
+}
+
+fn value_in_cents(coin: Coin) -> u32 {
+    match coin {
+        Coin::Penny => {
+            println!("Lucky penny!");
+            1
+        },
+        Coin::Nickel => 5,
+        Coin::Dime => 10,
+        Coin::Quarter => 25,
+    }
 }
