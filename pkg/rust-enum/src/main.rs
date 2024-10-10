@@ -45,6 +45,13 @@ fn main() {
     // enum and match
     let coin = Coin::Penny;
     println!("{}", value_in_cents(coin));
+
+    // Option<T> and match
+    let five = Some(5);
+    let six = plus_one(five);
+    let none = plus_one(None);
+    println!("{:#?}", six);
+    println!("{:#?}", none);
 }
 
 fn route(ip: IpAddr) {
@@ -60,5 +67,12 @@ fn value_in_cents(coin: Coin) -> u32 {
         Coin::Nickel => 5,
         Coin::Dime => 10,
         Coin::Quarter => 25,
+    }
+}
+
+fn plus_one(x: Option<i32>) -> Option<i32> {
+    match x {
+        None => None,
+        Some(i) => Some(i + 1),
     }
 }
