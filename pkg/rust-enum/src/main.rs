@@ -52,6 +52,12 @@ fn main() {
     let none = plus_one(None);
     println!("{:#?}", six);
     println!("{:#?}", none);
+
+    // if let
+    let some_u8_value = Some(0u8);
+    if let Some(3) = some_u8_value {
+        println!("three");
+    }
 }
 
 fn route(ip: IpAddr) {
