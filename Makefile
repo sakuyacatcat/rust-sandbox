@@ -5,6 +5,10 @@ create:
 	@echo "Creating package: $(PKG_NAME)"
 	cargo new $(PKG_DIR)
 
+lib:
+	@echo "Adding module: $(PKG_NAME)"
+	cargo new --lib $(PKG_DIR)
+
 remove:
 	@echo "Removing package: $(PKG_NAME)"
 	rm -rf $(PKG_DIR)
