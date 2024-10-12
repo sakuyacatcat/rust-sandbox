@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 fn main() {
     // Vector
     let v: Vec<i32> = Vec::new();
@@ -57,4 +59,26 @@ fn main() {
     let s3 = s1 + &s2;
     let s4 = format!("{}-{}", s3, s2);
     println!("{}", s4);
+
+    // hash map
+    let mut scores = HashMap::new();
+    scores.insert(String::from("Blue"), 10);
+    scores.insert(String::from("Yellow"), 50);
+
+    // collect
+    let teams = vec![String::from("Blue"), String::from("Yellow")];
+    let initial_scores = vec![10, 50];
+    let scores: HashMap<_,_> = teams.iter().zip(initial_scores.iter()).collect();
+    println!("{:?}", teams);
+    println!("{:?}", initial_scores);
+    println!("{:?}", scores);
+
+    // ownership of hash map
+    let field_name = String::from("Favorite color");
+    let field_value = String::from("Blue");
+    let mut map = HashMap::new();
+    map.insert(field_name.clone(), field_value.clone());
+    println!("{:?}", map);
+    println!("{}", field_name);
+    println!("{}", field_value);
 }
