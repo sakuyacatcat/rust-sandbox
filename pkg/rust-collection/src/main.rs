@@ -78,7 +78,14 @@ fn main() {
     let field_value = String::from("Blue");
     let mut map = HashMap::new();
     map.insert(field_name.clone(), field_value.clone());
+    map.entry(String::from("Favorite color")).or_insert(String::from("Red"));
     println!("{:?}", map);
-    println!("{}", field_name);
-    println!("{}", field_value);
+
+    let text = "hello world wonderful world";
+    let mut map = HashMap::new();
+    for word in text.split_whitespace() {
+        let count = map.entry(word).or_insert(0);
+        *count += 1;
+    }
+    println!("{:?}", map);
 }
