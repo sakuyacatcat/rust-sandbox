@@ -43,6 +43,14 @@ fn main() {
     };
 
     println!("1 new tweet: {}", tweet.summarize());
+
+    // lifetimes
+    let r;
+    {
+        let x = 5;
+        r = &x;
+    }
+    println!("r: {}", r);
 }
 
 fn largest<T: PartialOrd + Copy>(list: &[T]) -> T {
