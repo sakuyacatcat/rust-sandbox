@@ -1,5 +1,6 @@
 PKG_NAME ?= default
 PKG_DIR = pkg/$(PKG_NAME)
+ARGS ?= ""
 
 create:
 	@echo "Creating package: $(PKG_NAME)"
@@ -51,6 +52,6 @@ clean:
 
 test:
 	@echo "Testing package: $(PKG_NAME)"
-	@cd $(PKG_DIR) && cargo test
+	@cd $(PKG_DIR) && cargo test $(ARGS)
 
 .PHONY: create remove run clean test
