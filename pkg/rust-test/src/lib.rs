@@ -60,16 +60,6 @@ mod tests {
         let value = prints_and_returns_10(4);
         assert_eq!(10, value);
     }
-
-    #[test]
-    fn this_test_will_fail() {
-        let value = prints_and_returns_10(8);
-        assert_eq!(5, value);
-    }
-}
-
-pub fn add_two(a: i32) -> i32 {
-    a + 2
 }
 
 #[derive(Debug)]
@@ -103,4 +93,12 @@ impl Guess {
 fn prints_and_returns_10(a: i32) -> i32 {
     println!("I got the value {}", a);
     10
+}
+
+pub fn add_two(a: i32) -> i32 {
+    internal_addr(a, 2)
+}
+
+fn internal_addr(a: i32, b: i32) -> i32 {
+    a + b
 }
