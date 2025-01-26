@@ -11,6 +11,21 @@ fn main() {
         simulated_user_specified_value,
         simulated_random_number
     );
+
+    // closure that captures its environment
+    let x = 4;
+    // x is captured from the environment
+    // and x's ownership is moved into the closure
+    let equal_to_x = |z| z == x;
+    let y = 4;
+    assert!(equal_to_x(y));
+
+    // iterator
+    let v1 = vec![1, 2, 3];
+    let v1_iter = v1.iter();
+    for val in v1_iter {
+        println!("Got: {}", val);
+    }
 }
 
 struct Cacher<T, A, R>
