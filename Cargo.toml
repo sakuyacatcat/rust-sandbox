@@ -1,0 +1,17 @@
+[workspace]
+
+members = [
+    "pkg/echor",
+    "pkg/guessing_game",
+    "pkg/hello", "pkg/hogehoge",
+    "pkg/minigrep",
+    "pkg/rust-closure",
+    "pkg/rust-collection",
+    "pkg/rust-concept",
+    "pkg/rust-enum",
+    "pkg/rust-error",
+    "pkg/rust-generics",
+    "pkg/rust-package",
+    "pkg/rust-struct",
+    "pkg/rust-test"
+]
