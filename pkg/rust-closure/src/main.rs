@@ -41,6 +41,7 @@ where
             Some(v) => v.clone(),
             None => {
                 let result = (self.calculation)(arg.clone());
+                // don't need to clone arg because it's already passed to this struct scope
                 self.value.insert(arg, result.clone());
                 result
             },
