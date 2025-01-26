@@ -3,7 +3,7 @@
 members = [
     "pkg/echor",
     "pkg/guessing_game",
-    "pkg/hello", "pkg/hogehoge",
+    "pkg/hello",
     "pkg/minigrep",
     "pkg/rust-closure",
     "pkg/rust-collection",
