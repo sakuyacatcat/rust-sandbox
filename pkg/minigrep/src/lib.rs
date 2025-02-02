@@ -11,12 +11,21 @@ pub struct Config {
 }
 
 impl Config {
-    pub fn new(args: &[String]) -> Result<Config, &'static str> {
-        if args.len() < 3 {
-            return Err("not enough arguments");
-        }
-        let query = args[1].clone();
-        let filename = args[2].clone();
+    pub fn new<I>(mut args: I) -> Result<Config, &'static str>
+    where
+        I: Iterator<Item = String>,
+    {
+        args.next();
+
+        let query = match args.next() {
+            Some(arg) => arg,
+            None => return Err("Didn't get a query string"),
+        };
+
+        let filename = match args.next() {
+            Some(arg) => arg,
+            None => return Err("Didn't get a filename"),
+        };
 
         let case_sensitive = env::var("CASE_INSENSITIVE").is_err();
 
@@ -44,14 +53,9 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
 }
 
 pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
-    let mut results = Vec::new();
-
-    for line in contents.lines() {
-        if line.contains(query) {
-            results.push(line);
-        }
-    }
-    results
+    contents.lines()
+        .filter(|line| line.contains(query))
+        .collect()
 }
 
 pub fn search_case_insensitive<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
@@ -118,8 +122,12 @@ Pick three.";
 
     #[test]
     fn config_new_with_two_args() {
-        let args = vec![String::from("minigrep"), String::from("query"), String::from("filename")];
-        let config = Config::new(&args).unwrap();
+        let args = vec![
+            String::from("minigrep"),
+            String::from("query"),
+            String::from("filename")
+        ];
+        let config = Config::new(args.into_iter()).unwrap();
         assert_eq!(config.query, "query");
         assert_eq!(config.filename, "filename");
     }
@@ -127,16 +135,16 @@ Pick three.";
     #[test]
     fn config_new_with_one_arg() {
         let args = vec![String::from("minigrep"), String::from("query")];
-        let result = Config::new(&args);
+        let result = Config::new(args.into_iter());
         assert!(result.is_err());
-        assert_eq!(result.unwrap_err(), "not enough arguments");
+        assert_eq!(result.unwrap_err(), "Didn't get a filename");
     }
 
     #[test]
     fn config_new_with_no_args() {
         let args = vec![String::from("minigrep")];
-        let result = Config::new(&args);
+        let result = Config::new(args.into_iter());
         assert!(result.is_err());
-        assert_eq!(result.unwrap_err(), "not enough arguments");
+        assert_eq!(result.unwrap_err(), "Didn't get a query string");
     }
 }
