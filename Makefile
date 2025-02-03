@@ -39,6 +39,10 @@ rrun:
 	@echo "Running release package: $(PKG_NAME)"
 	@cd $(PKG_DIR) && cargo run --release --quiet $(ARGS) $(if $(OPTS), -- $(OPTS))
 
+doc:
+	@echo "Documenting package: $(PKG_NAME)"
+	@cd $(PKG_DIR) && cargo doc --open
+
 add:
 	@echo "Adding package: $(LIB)"
 	@cd $(PKG_DIR) && cargo add $(LIB)
