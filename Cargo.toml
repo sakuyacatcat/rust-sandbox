@@ -7,7 +7,7 @@ members = [
     "pkg/minigrep",
     "pkg/rust-closure",
     "pkg/rust-collection",
-    "pkg/rust-concept",
+    "pkg/rust-concept", "pkg/rust-concurrency",
     "pkg/rust-enum",
     "pkg/rust-error",
     "pkg/rust-generics",
