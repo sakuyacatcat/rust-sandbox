@@ -10,7 +10,7 @@ members = [
     "pkg/rust-concept", "pkg/rust-concurrency",
     "pkg/rust-enum",
     "pkg/rust-error",
-    "pkg/rust-generics",
+    "pkg/rust-generics", "pkg/rust-oop",
     "pkg/rust-package", "pkg/rust-pub-crates", "pkg/rust-smart-pointer",
     "pkg/rust-struct",
     "pkg/rust-test"
