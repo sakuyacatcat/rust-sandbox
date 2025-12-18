@@ -1,6 +1,6 @@
 [workspace]
 
-members = [ "pkg/default",
+members = [
     "pkg/echor",
     "pkg/guessing_game",
     "pkg/hello",
