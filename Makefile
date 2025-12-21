@@ -50,6 +50,10 @@ add: check-pkg
 	@echo "Adding package: $(LIB)"
 	@cd $(PKG_DIR) && cargo add $(LIB)
 
+add-dev: check-pkg
+	@echo "Adding dev dependency: $(LIB)"
+	@cd $(PKG_DIR) && cargo add --dev $(LIB)
+
 update: check-pkg
 	@echo "Updating package: $(PKG)"
 	@cd $(PKG_DIR) && cargo update
