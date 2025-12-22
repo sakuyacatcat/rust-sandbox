@@ -1,11 +1,11 @@
-use assert_cmd::Command;
+use assert_cmd::cargo::cargo_bin_cmd;
 use predicates::prelude::*;
 
 type TestResult = Result<(), Box<dyn std::error::Error>>;
 
 #[test]
 fn dies_no_args() -> TestResult {
-    Command::cargo_bin("echor")?
+    cargo_bin_cmd!("echor")
         .assert()
         .failure()
         .stderr(predicate::str::contains("Usage"));
@@ -13,7 +13,7 @@ fn dies_no_args() -> TestResult {
 }
 
 fn runs(args: &[&str], expected: &str) -> TestResult {
-    Command::cargo_bin("echor")?
+    cargo_bin_cmd!("echor")
         .args(args)
         .assert()
         .success()
