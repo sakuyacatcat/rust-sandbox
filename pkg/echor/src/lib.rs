@@ -38,4 +38,44 @@ mod tests {
         let result = run(input_strings, omit_newline);
         assert_eq!(result, expected);
     }
+
+    #[test]
+    fn test_build_cli() {
+        let cli = build_cli();
+
+        assert_eq!(
+            (
+                cli.get_name(),
+                cli.get_version(),
+                cli.get_author(),
+                cli.get_about().map(|s| s.to_string())
+            ),
+            (
+                "echor",
+                Some("1.0"),
+                Some("Satoshi Nakamoto <hogehoge@example.com>"),
+                Some("A simple echo program written in Rust".to_string())
+            )
+        )
+    }
+
+    #[test]
+    fn test_build_cli_has_required_text_arg() {
+        let cli = build_cli();
+        let args = cli.get_arguments().collect::<Vec<_>>();
+
+        let text_arg = args.iter().find(|a| a.get_id() == "text");
+        assert!(text_arg.is_some());
+        assert!(text_arg.unwrap().is_required_set());
+    }
+
+    #[test]
+    fn test_build_cli_has_omit_newline_flag() {
+        let cli = build_cli();
+        let args = cli.get_arguments().collect::<Vec<_>>();
+
+        let n_arg = args.iter().find(|a| a.get_id() == "omit_newline");
+        assert!(n_arg.is_some());
+        assert_eq!(n_arg.unwrap().get_short(), Some('n'));
+    }
 }
