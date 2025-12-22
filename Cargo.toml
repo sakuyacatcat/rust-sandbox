@@ -1,6 +1,7 @@
 [workspace]
 
 members = [
+    "pkg/catr",
     "pkg/echor",
     "pkg/guessing_game",
     "pkg/hello",
