@@ -24,6 +24,7 @@ pub fn parse_args() -> MyResult<Config> {
         .arg(
             Arg::new("number_lines")
                 .short('n')
+                .long("number")
                 .action(clap::ArgAction::SetTrue)
                 .help("Number all output lines")
                 .conflicts_with("number_nonblank_lines"),
@@ -31,6 +32,7 @@ pub fn parse_args() -> MyResult<Config> {
         .arg(
             Arg::new("number_nonblank_lines")
                 .short('b')
+                .long("number-nonblank")
                 .action(clap::ArgAction::SetTrue)
                 .help("Number nonempty output lines")
                 .conflicts_with("number_lines"),
