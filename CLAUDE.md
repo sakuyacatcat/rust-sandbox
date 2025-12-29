@@ -1,43 +1,73 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+このファイルは、Claude Code (claude.ai/code) がこのリポジトリで作業する際のガイダンスを提供します。
 
-## Project Overview
+## プロジェクト概要
 
-A Rust workspace sandbox containing multiple packages for exploring various Rust concepts. Each package in `pkg/` focuses on a specific Rust topic (closures, collections, concurrency, smart pointers, OOP, etc.).
+Rust の様々な概念を探索するための複数パッケージを含む Rust ワークスペースサンドボックスです。`pkg/` 内の各パッケージは、特定の Rust トピック（クロージャ、コレクション、並行処理、スマートポインタ、OOP など）に焦点を当てています。
 
-## Build Commands
+## 学習目的
 
-All commands use the Makefile and require specifying `PKG_NAME`:
+このリポジトリの主要な目的は、**開発者が Rust を効果的に学ぶための実践的な経験を積むこと**です。
+
+- Web チュートリアルや書籍を参考にした写経的なコーディングが中心
+- 各パッケージは特定の Rust コンセプトを探索・理解するために作成
+
+## Claude へのフィードバック方針
+
+コードレビューやアシスト時に、以下の点について**自発的に**情報提供してください：
+
+### 1. 重要なポイントの解説
+
+- Rust 特有の概念（所有権、ライフタイム、借用など）に関する重要な洞察
+- コードが動作する背景にある仕組みの説明
+- エラーメッセージの詳細な解説と根本原因
+
+### 2. プロダクションレベルの改善提案
+
+- より慣用的（idiomatic）な Rust の書き方
+- パフォーマンスやメモリ効率の改善点
+- エラーハンドリングのベストプラクティス
+- 実務で使われるパターンやクレートの紹介
+
+### 3. 学習の深化
+
+- 関連する公式ドキュメントや学習リソースへの言及
+- 類似概念との比較や発展的なトピックの紹介
+- 「なぜそう書くのか」の理由の説明
+
+## ビルドコマンド
+
+すべてのコマンドは Makefile を使用し、`PKG_NAME` の指定が必要です：
 
 ```bash
-# Build a package
+# パッケージをビルド
 make build PKG_NAME=minigrep
 
-# Run a package
+# パッケージを実行
 make run PKG_NAME=minigrep
 
-# Run with arguments
+# 引数付きで実行
 make run PKG_NAME=minigrep OPTS="search_term filename.txt"
 
-# Run tests
+# テストを実行
 make test PKG_NAME=rust-test
 
-# Run specific test
+# 特定のテストを実行
 make test PKG_NAME=rust-test ARGS="test_name"
 
-# Format code
+# コードをフォーマット
 make fmt PKG_NAME=minigrep
 
-# Create new package
+# 新しいパッケージを作成
 make create PKG_NAME=my-new-package
 
-# Create library package
+# ライブラリパッケージを作成
 make lib PKG_NAME=my-lib
 ```
 
-## Architecture
+## アーキテクチャ
 
-- **Workspace root**: `Cargo.toml` defines workspace members
-- **Packages**: Each package in `pkg/` is independent with its own `Cargo.toml`
-- **Tests**: Standard Rust test structure - unit tests in `src/`, integration tests in `tests/`
+- **ワークスペースルート**: `Cargo.toml` でワークスペースメンバーを定義
+- **パッケージ**: `pkg/` 内の各パッケージは独自の `Cargo.toml` を持つ独立したパッケージ
+- **テスト**: 標準的な Rust テスト構造 - ユニットテストは `src/`、統合テストは `tests/`
