@@ -38,32 +38,32 @@ Rust の様々な概念を探索するための複数パッケージを含む Ru
 
 ## ビルドコマンド
 
-すべてのコマンドは Makefile を使用し、`PKG_NAME` の指定が必要です：
+すべてのコマンドは Makefile を使用し、`PKG` の指定が必要です：
 
 ```bash
 # パッケージをビルド
-make build PKG_NAME=minigrep
+make build PKG=minigrep
 
 # パッケージを実行
-make run PKG_NAME=minigrep
+make run PKG=minigrep
 
 # 引数付きで実行
-make run PKG_NAME=minigrep OPTS="search_term filename.txt"
+make run PKG=minigrep ARGS="search_term filename.txt"
 
 # テストを実行
-make test PKG_NAME=rust-test
+make test PKG=rust-test
 
 # 特定のテストを実行
-make test PKG_NAME=rust-test ARGS="test_name"
+make test PKG=rust-test ARGS="test_name"
 
 # コードをフォーマット
-make fmt PKG_NAME=minigrep
+make fmt PKG=minigrep
 
 # 新しいパッケージを作成
-make create PKG_NAME=my-new-package
+make create PKG=my-new-package
 
 # ライブラリパッケージを作成
-make lib PKG_NAME=my-lib
+make lib PKG=my-lib
 ```
 
 ## アーキテクチャ
