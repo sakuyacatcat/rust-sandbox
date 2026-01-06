@@ -50,9 +50,17 @@ add: check-pkg
 	@echo "Adding package: $(LIB)"
 	@cd $(PKG_DIR) && cargo add $(LIB)
 
+delete: check-pkg
+	@echo "Removing package: $(LIB)"
+	@cd $(PKG_DIR) && cargo remove $(LIB)
+
 add-dev: check-pkg
 	@echo "Adding dev dependency: $(LIB)"
 	@cd $(PKG_DIR) && cargo add --dev $(LIB)
+
+delete-dev: check-pkg
+	@echo "Removing dev dependency: $(LIB)"
+	@cd $(PKG_DIR) && cargo remove --dev $(LIB)
 
 update: check-pkg
 	@echo "Updating package: $(PKG)"
