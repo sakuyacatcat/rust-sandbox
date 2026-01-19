@@ -1,5 +1,7 @@
-use clap::{Command, Arg};
+use clap::{Arg, Command};
 use std::error::Error;
+use std::fs::File;
+use std::io::{self, BufRead, BufReader};
 
 type MyResult<T> = Result<T, Box<dyn Error>>;
 
@@ -48,19 +50,20 @@ pub fn get_args() -> MyResult<Config> {
             .unwrap()
             .map(|s| s.to_string())
             .collect(),
-        lines: matches
-            .get_one::<String>("lines")
-            .unwrap()
-            .parse()
-            .unwrap(),
+        lines: matches.get_one::<usize>("lines").copied().unwrap(),
         bytes: matches
-            .get_one::<String>("bytes")
-            .map(|s| s.parse().unwrap()),
+            .get_one::<usize>("bytes")
+            .copied(),
     })
 }
 
 pub fn run(config: Config) -> MyResult<()> {
-    print!("Config: {:?}\n", config);
+    for filename in config.files {
+        match open(&filename) {
+            Err(err) => eprintln!("{}: {}", filename, err),
+            Ok(_) => println!("Opened {}", filename),
+        }
+    }
     Ok(())
 }
 
@@ -68,6 +71,13 @@ fn parse_positive_int(val: &str) -> MyResult<usize> {
     match val.parse() {
         Ok(n) if n > 0 => Ok(n),
         _ => Err(From::from(val)),
+    }
+}
+
+fn open(filename: &str) -> MyResult<Box<dyn BufRead>> {
+    match filename {
+        "-" => Ok(Box::new(BufReader::new(io::stdin()))),
+        _ => Ok(Box::new(BufReader::new(File::open(filename)?))),
     }
 }
 

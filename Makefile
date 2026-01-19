@@ -26,6 +26,10 @@ fmt: check-pkg
 	@echo "Formatting package: $(PKG)"
 	@cd $(PKG_DIR) && cargo fmt
 
+lint: check-pkg
+	@echo "Linting package: $(PKG)"
+	@cd $(PKG_DIR) && cargo clippy
+
 build: check-pkg
 	@echo "Building package: $(PKG)"
 	@cd $(PKG_DIR) && cargo build
