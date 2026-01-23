@@ -24,7 +24,8 @@ pub fn get_args() -> MyResult<Config> {
                 .value_name("LINES")
                 .help("Number of lines")
                 .default_value("10")
-                .value_parser(clap::value_parser!(usize)),
+                .value_parser(parse_positive_int),
+                // .value_parser(clap::value_parser!(usize)),
         )
         .arg(
             Arg::new("bytes")
@@ -33,7 +34,7 @@ pub fn get_args() -> MyResult<Config> {
                 .value_name("BYTES")
                 .conflicts_with("lines")
                 .help("Number of bytes")
-                .value_parser(clap::value_parser!(usize)),
+                .value_parser(parse_positive_int),
         )
         .arg(
             Arg::new("files")
@@ -58,10 +59,20 @@ pub fn get_args() -> MyResult<Config> {
 }
 
 pub fn run(config: Config) -> MyResult<()> {
-    for filename in config.files {
+    let num_files = config.files.len();
+
+    for (file_num , filename) in config.files.iter().enumerate() {
         match open(&filename) {
             Err(err) => eprintln!("{}: {}", filename, err),
             Ok(mut file) => {
+                if num_files > 1 {
+                    println!(
+                        "{}==> {} <==",
+                        if file_num > 0 { "\n" } else { "" },
+                        filename
+                    );
+                }
+
                 if let Some(num_bytes) = config.bytes {
                     let mut handle = file.take(num_bytes as u64);
                     let mut buffer = vec![0; num_bytes];
@@ -81,16 +92,17 @@ pub fn run(config: Config) -> MyResult<()> {
                         line.clear();
                     }
                 }
-           }
+            }
         }
     }
     Ok(())
 }
 
-fn parse_positive_int(val: &str) -> MyResult<usize> {
-    match val.parse() {
+fn parse_positive_int(val: &str) -> Result<usize, String> {
+    match val.parse::<usize>() {
         Ok(n) if n > 0 => Ok(n),
-        _ => Err(From::from(val)),
+        Ok(_) => Err(val.to_string()),
+        Err(e) => Err(e.to_string()),
     }
 }
 
@@ -109,7 +121,7 @@ fn test_parse_positive_int() {
 
     let res = parse_positive_int("foo");
     assert!(res.is_err());
-    assert_eq!(res.unwrap_err().to_string(), "foo".to_string());
+    assert_eq!(res.unwrap_err().to_string(), "invalid digit found in string".to_string());
 
     let res = parse_positive_int("0");
     assert!(res.is_err());
