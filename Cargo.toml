@@ -15,5 +15,5 @@ members = [
     "pkg/rust-package", "pkg/rust-pub-crates", "pkg/rust-smart-pointer",
     "pkg/rust-struct",
     "pkg/rust-test"
-]
+, "pkg/wcr"]
 resolver = "2"
