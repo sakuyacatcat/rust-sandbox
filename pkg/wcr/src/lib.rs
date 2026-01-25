@@ -90,7 +90,12 @@ fn count(mut content: impl BufRead) -> FileInfo {
 
     let mut line = String::new();
 
-    while content.read_line(&mut line).unwrap() > 0 {
+    loop {
+        let line_bytes = content.read_line(&mut line).unwrap();
+        if line_bytes == 0 {
+            break;
+        }
+
         lines += 1;
         words += line.split_whitespace().count();
         bytes += line.len();
