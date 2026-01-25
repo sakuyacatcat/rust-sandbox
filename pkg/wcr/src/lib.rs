@@ -2,8 +2,7 @@ use clap::Parser;
 use std::io::{BufRead, BufReader};
 use std::fs::File;
 use std::ops::Add;
-
-type MyResult<T> = Result<T, Box<dyn std::error::Error>>;
+use anyhow::Result;
 
 #[derive(Debug, clap::Parser)]
 pub struct Config {
@@ -50,7 +49,7 @@ pub fn parse_args() -> Config{
     Config::parse()
 }
 
-pub fn run(config: Config) -> MyResult<()> {
+pub fn run(config: Config) -> Result<()> {
     let mut total = FileInfo::default();
 
     for filename in &config.files {
@@ -74,7 +73,7 @@ pub fn run(config: Config) -> MyResult<()> {
 }
 
 
-fn open(filename: &str) -> MyResult<Box<dyn BufRead>> {
+fn open(filename: &str) -> Result<Box<dyn BufRead>> {
     match filename {
         // "-" means standard input
         "-" => Ok(Box::new(BufReader::new(std::io::stdin()))),
