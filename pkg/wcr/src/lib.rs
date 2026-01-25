@@ -165,4 +165,25 @@ mod tests {
             chars: 19,
         });
     }
+
+    #[test]
+    fn test_format_output_default() {
+        let config = Config {
+            files: vec![],
+            lines: false,
+            words: false,
+            bytes: false,
+            chars: false,
+        };
+        let info = FileInfo {
+            lines: 10,
+            words: 20,
+            bytes: 300,
+            chars: 250,
+        };
+
+        let output = format_output(&info, &config, "file.txt");
+
+        assert_eq!(output, "      10       20      300 file.txt");
+    }
 }
