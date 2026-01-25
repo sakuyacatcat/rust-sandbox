@@ -17,7 +17,7 @@ pub struct Config {
     chars: bool,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq, Default)]
 pub struct FileInfo {
     pub lines: usize,
     pub words: usize,
@@ -64,24 +64,19 @@ pub fn count(mut content: impl BufRead) -> FileInfo {
 }
 
 pub fn run(config: Config) -> Result<(), Box<dyn std::error::Error>> {
-    let mut total = FileInfo {
-        lines: 0,
-        words: 0,
-        bytes: 0,
-        chars: 0,
-    };
+    let mut total = FileInfo::default();
 
     for filename in &config.files {
-        let info: FileInfo;
-        if filename == "-" {
-            info = count(BufReader::new(std::io::stdin()));
-        } else {
-            let file = File::open(filename)?;
-            let mut reader = BufReader::new(file);
-            info = count(&mut reader);
+        match open(filename) {
+            Ok(reader) => {
+                let info: FileInfo = count(reader);
+                total = total + info.clone();
+                println!("{}", format_output(&info, &config, filename));
+            }
+            Err(e) => {
+                eprintln!("Failed to open {}: {}", filename, e);
+            }
         }
-        total = total + info.clone();
-        println!("{}", format_output(&info, &config, filename));
     }
 
     if config.files.len() > 1 {
@@ -89,6 +84,15 @@ pub fn run(config: Config) -> Result<(), Box<dyn std::error::Error>> {
     }
 
     Ok(())
+}
+
+fn open(filename: &str) -> Result<Box<dyn BufRead>, Box<dyn std::error::Error>> {
+    match filename {
+        // "-" means standard input
+        "-" => Ok(Box::new(BufReader::new(std::io::stdin()))),
+        // _ means wildcard (match anything)
+        _ => Ok(Box::new(BufReader::new(File::open(filename)?))),
+    }
 }
 
 fn format_output(info: &FileInfo, config: &Config, filename: &str) -> String {
@@ -116,4 +120,40 @@ fn format_output(info: &FileInfo, config: &Config, filename: &str) -> String {
     }
 
     parts.join(" ")
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::io::Cursor;
+
+    #[test]
+    fn test_count_simple() {
+        let input = "Hello World\nThis is a test.\n";
+        let cursor = Cursor::new(input);
+
+        let info = count(cursor);
+
+        assert_eq!(info, FileInfo {
+            lines: 2,
+            words: 6,
+            bytes: 28,
+            chars: 28,
+        });
+    }
+
+    #[test]
+    fn test_count_multibyte() {
+        let input = "こんにちは 世界\nこれはテストです。\n";
+        let cursor = Cursor::new(input);
+
+        let info = count(cursor);
+
+        assert_eq!(info, FileInfo {
+            lines: 2,
+            words: 3,
+            bytes: 51,
+            chars: 19,
+        });
+    }
 }
