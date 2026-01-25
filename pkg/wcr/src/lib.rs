@@ -49,11 +49,20 @@ pub fn parse_args() -> Config{
 }
 
 pub fn count(mut content: impl BufRead) -> FileInfo {
-    let text = std::io::read_to_string(&mut content).unwrap();
-    let lines = text.lines().count();
-    let words = text.split_whitespace().count();
-    let bytes = text.len();
-    let chars = text.chars().count();
+    let mut lines = 0;
+    let mut words = 0;
+    let mut bytes = 0;
+    let mut chars = 0;
+
+    let mut line = String::new();
+
+    while content.read_line(&mut line).unwrap() > 0 {
+        lines += 1;
+        words += line.split_whitespace().count();
+        bytes += line.len();
+        chars += line.chars().count();
+        line.clear();
+    }
 
     FileInfo {
         lines,
