@@ -3,6 +3,8 @@ use std::io::{BufRead, BufReader};
 use std::fs::File;
 use std::ops::Add;
 
+type MyResult<T> = Result<T, Box<dyn std::error::Error>>;
+
 #[derive(Debug, clap::Parser)]
 pub struct Config {
     #[arg(help = "Input files", default_value = "-")]
@@ -48,31 +50,7 @@ pub fn parse_args() -> Config{
     Config::parse()
 }
 
-pub fn count(mut content: impl BufRead) -> FileInfo {
-    let mut lines = 0;
-    let mut words = 0;
-    let mut bytes = 0;
-    let mut chars = 0;
-
-    let mut line = String::new();
-
-    while content.read_line(&mut line).unwrap() > 0 {
-        lines += 1;
-        words += line.split_whitespace().count();
-        bytes += line.len();
-        chars += line.chars().count();
-        line.clear();
-    }
-
-    FileInfo {
-        lines,
-        words,
-        bytes,
-        chars,
-    }
-}
-
-pub fn run(config: Config) -> Result<(), Box<dyn std::error::Error>> {
+pub fn run(config: Config) -> MyResult<()> {
     let mut total = FileInfo::default();
 
     for filename in &config.files {
@@ -95,12 +73,37 @@ pub fn run(config: Config) -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-fn open(filename: &str) -> Result<Box<dyn BufRead>, Box<dyn std::error::Error>> {
+
+fn open(filename: &str) -> MyResult<Box<dyn BufRead>> {
     match filename {
         // "-" means standard input
         "-" => Ok(Box::new(BufReader::new(std::io::stdin()))),
         // _ means wildcard (match anything)
         _ => Ok(Box::new(BufReader::new(File::open(filename)?))),
+    }
+}
+
+fn count(mut content: impl BufRead) -> FileInfo {
+    let mut lines = 0;
+    let mut words = 0;
+    let mut bytes = 0;
+    let mut chars = 0;
+
+    let mut line = String::new();
+
+    while content.read_line(&mut line).unwrap() > 0 {
+        lines += 1;
+        words += line.split_whitespace().count();
+        bytes += line.len();
+        chars += line.chars().count();
+        line.clear();
+    }
+
+    FileInfo {
+        lines,
+        words,
+        bytes,
+        chars,
     }
 }
 
